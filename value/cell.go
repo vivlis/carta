@@ -43,6 +43,8 @@ func (c *Cell) Scan(src interface{}) error {
 	switch src.(type) {
 	case int64:
 		c.SetInt64(src.(int64))
+	case int32: // CUSTOMIZED - support for int32
+		c.SetInt32(src.(int32))
 	case float64:
 		c.SetFloat64(src.(float64))
 	case bool:
@@ -78,6 +80,13 @@ func (c *Cell) SetFloat64(d float64) {
 
 func (c *Cell) SetInt64(d int64) {
 	c.kind = reflect.Float64
+	c.valid = true
+	c.bits = uint64(d)
+}
+
+// SetInt32 - CUSTOMIZED - support for int32
+func (c *Cell) SetInt32(d int32) {
+	c.kind = reflect.Float32
 	c.valid = true
 	c.bits = uint64(d)
 }
